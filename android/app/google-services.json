@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "412274559221",
+    "project_id": "sopa-91498",
+    "storage_bucket": "sopa-91498.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412274559221:android:da8cda625f4eabc4f39dbc",
+        "android_client_info": {
+          "package_name": "com.shoppingapp1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwfRigrNPUE8I9HA_fDCZ1hmv0ai7MqI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

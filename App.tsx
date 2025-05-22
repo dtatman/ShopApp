@@ -1,131 +1,133 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useEffect } from 'react';
+import { StatusBar, LogBox } from 'react-native';
+import { COLORS } from './src/utils/colors';
+import AppNavigator from './src/navigation/AppNavigator';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+// import { uploadProductsToFirestore } from './src/data/uploadToFirestore';
+// Bỏ qua một số cảnh báo không cần thiết
+LogBox.ignoreLogs([
+  'ViewPropTypes will be removed',
+  'ColorPropType will be removed',
+]);
+LogBox.ignoreAllLogs();
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const App = () => {
+  // useEffect(() => {
+  //   uploadProductsToFirestore("WBkD9KI1AWZVI53lpdopw2vYGdu1");
+  // }, []);
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  // return null;
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
+      <AppNavigator />
+    </GestureHandlerRootView>
   );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  /*
-   * To keep the template simple and small we're adding padding to prevent view
-   * from rendering under the System UI.
-   * For bigger apps the recommendation is to use `react-native-safe-area-context`:
-   * https://github.com/AppAndFlow/react-native-safe-area-context
-   *
-   * You can read more about it here:
-   * https://github.com/react-native-community/discussions-and-proposals/discussions/827
-   */
-  const safePadding = '5%';
-
-  return (
-    <View style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        style={backgroundStyle}>
-        <View style={{paddingRight: safePadding}}>
-          <Header/>
-        </View>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            paddingHorizontal: safePadding,
-            paddingBottom: safePadding,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
+};
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect } from 'react';
+// import { SafeAreaView, ScrollView, Text } from 'react-native';
+// import firestore from '@react-native-firebase/firestore';
+
+// const App = () => {
+//   useEffect(() => {
+//     const exportFirestoreData = async () => {
+//       try {
+//         const collectionsToExport = ['categories', 'products', 'users'];
+//         const exportedData: Record<string, any> = {};
+
+//         // 1. Export top-level collections (categories, products)
+//         for (const collectionName of collectionsToExport) {
+//           // Special handling for users
+//           if (collectionName === 'users') continue;
+
+//           const snapshot = await firestore().collection(collectionName).get();
+//           const docs = snapshot.docs.map(doc => ({
+//             id: doc.id,
+//             ...doc.data()
+//           }));
+//           exportedData[collectionName] = docs;
+//         }
+
+//         // 2. Export users + subcollections
+//         const userSnapshot = await firestore().collection('users').get();
+//         const usersWithSubcollections = [];
+
+//         for (const userDoc of userSnapshot.docs) {
+//           const userId = userDoc.id;
+//           const userData = userDoc.data();
+
+//           // Subcollections to fetch
+//           const subcollections = ['cart', 'orders', 'wishlist'];
+//           const userSubData: Record<string, any[]> = {};
+
+//           for (const sub of subcollections) {
+//             const subSnap = await firestore()
+//               .collection(`users/${userId}/${sub}`)
+//               .get();
+
+//             userSubData[sub] = subSnap.docs.map(subDoc => ({
+//               id: subDoc.id,
+//               ...subDoc.data()
+//             }));
+//           }
+
+//           usersWithSubcollections.push({
+//             id: userId,
+//             ...userData,
+//             ...userSubData // Merged: cart, orders, wishlist
+//           });
+//         }
+
+//         exportedData['users'] = usersWithSubcollections;
+
+//         // ✅ In ra console toàn bộ JSON
+//         console.log('📦 Firestore Data Exported:\n', JSON.stringify(exportedData, null, 2));
+//       } catch (err) {
+//         console.error('❌ Export failed:', err);
+//       }
+//     };
+
+//     exportFirestoreData();
+//   }, []);
+
+//   return (
+//     <SafeAreaView>
+//       <ScrollView>
+//         <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 40 }}>
+//           🔄 Đang xuất dữ liệu Firestore...
+//         </Text>
+//         <Text style={{ padding: 20 }}>
+//           Mở console (Metro hoặc Logcat) để xem dữ liệu JSON từ Firestore.
+//         </Text>
+//       </ScrollView>
+//     </SafeAreaView>
+//   );
+// };
+
+// export default App;
+
